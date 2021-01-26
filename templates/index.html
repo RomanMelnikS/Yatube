@@ -1,15 +1,19 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block title %}Последние обновления на сайте{% endblock %}
 
-{% block header %}Последние обновления на сайте{% endblock %}
+{% block header %}Добро пожаловать в лучшее сообщество в мире | Yatube!{% endblock %}
 
 {% block content %}
-    {% for post in posts %}
-        <h3>
-            Автор: {{ post.author.get_full_name }}, дата публикации: {{ post.pub_date|date:"d M Y" }}
-        </h3>
-        <p>{{ post.text|linebreaksbr }}</p>
-        <hr>
-    {% endfor %}
+    {% include 'includes/menu.html' with index=True %}
+    {% load cache %}
+        {% cache 20 index_page page %}
+            {% for post in page %}
+                {% include 'posts/includes/post_item.html' with post=post %}
+            {% endfor %}
+    {% endcache %}
+    {% if page.has_other_pages %}
+        {% include 'includes/paginator.html' with items=page paginator=paginator %}
+    {% endif %}
 {% endblock %}
+

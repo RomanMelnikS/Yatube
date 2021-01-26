@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Подписки{% endblock %}
+
+{% block header %}Авторы на которых Вы подписаны{% endblock %}
+
+{% block content %}
+    {% include 'includes/menu.html' with follow=True %}
+    {% if page %}
+        {% load cache %}
+            {% cache 20 follow_page page %}
+                {% for post in page %}
+                    {% include 'posts/includes/post_item.html' with post=post %}
+                {% endfor %}
+        {% endcache %}
+        {% if page.has_other_pages %}
+            {% include 'includes/paginator.html' with items=page paginator=paginator %}
+        {% endif %}
+    {% else %}
+        <h2>Вы пока ни на кого не подписаны!!!</h2>
+    {% endif %}
+{% endblock %}

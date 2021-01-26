@@ -21,3 +21,11 @@ posts/static/
 db.sqlite3
 
 .vscode
+
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover 
+
+media

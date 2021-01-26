@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Запись: "{{ post }}" Автор: {{ author }}{% endblock %}
+
+{% block header %}{% endblock %}
+
+{% load user_filters %}
+
+{% block content %}
+    <main role="main" class="container">
+        <div class="row">
+            {% include 'posts/includes/author_card.html' %}
+            <div class="col-md-9">
+                {% include 'posts/includes/post_item.html' with post=post %}
+                {% include 'posts/includes/comments.html' %}
+                {% if page.has_other_pages %}
+                    {% include 'includes/paginator.html' with items=page paginator=paginator %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}
