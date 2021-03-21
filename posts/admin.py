@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import Comment, Group, Post
+from .models import Comment, Group, Post, Follow
 
 
 class CommentInLine(admin.StackedInline):
     model = Comment
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ('pk', 'text', 'pub_date', 'author', 'image_tag', 'image')
     readonly_fields = ('image_tag',)
@@ -25,6 +26,7 @@ class PostAdmin(admin.ModelAdmin):
     image_tag.short_description = 'Превью'
 
 
+@admin.register(Group)
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'description', 'slug',)
     search_fields = ('title',)
@@ -32,5 +34,6 @@ class GroupAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
 
 
-admin.site.register(Post, PostAdmin)
-admin.site.register(Group, GroupAdmin)
+@admin.register(Follow)
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ('user', 'author',)
